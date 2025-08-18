@@ -163,6 +163,14 @@ def get_plugin():
 - **Entropy Analysis**: Shannon entropy calculation for detecting packed/encrypted sections
 - **String Extraction**: Pattern matching for URLs, emails, file paths with context scoring
 
+## Screenshots
+
+### Help Interface
+![Help Interface](screencap_help.png)
+
+### Obfuscation Suggestions
+![Obfuscation Suggestions](screencap_suggest.png)
+
 ## Console Features
 
 ### Tier System
