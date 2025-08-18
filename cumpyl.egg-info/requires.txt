@@ -1,0 +1,16 @@
+lief
+capstone
+keystone-engine
+rich
+tqdm
+pyyaml
+
+[dev]
+numpy
+pytest
+pytest-cov
+black
+flake8
+
+[test]
+numpy

@@ -1,0 +1,2 @@
+[console_scripts]
+cumpyl = cumpyl_package.cumpyl:main
