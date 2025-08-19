@@ -6,6 +6,8 @@
 
 Cumpyl is a Python-based binary analysis framework for analyzing, modifying, and rewriting binary files (PE, ELF, Mach-O). It features plugin architecture, batch processing, and comprehensive reporting capabilities.
 
+**🆕 New in v0.3.1:** Modern Python package management with [uv](https://docs.astral.sh/uv/) support for blazing-fast installs and reproducible builds, while maintaining full backward compatibility with traditional pip/conda workflows.
+
 ## Key Features
 
 - **Plugin Architecture**: Dynamic plugin discovery with standardized interfaces
@@ -17,7 +19,24 @@ Cumpyl is a Python-based binary analysis framework for analyzing, modifying, and
 
 ## Installation
 
-### Using Conda/Mamba (Recommended)
+### Modern Installation (Recommended with uv)
+
+```bash
+# Install uv package manager
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone and install
+git clone https://github.com/umpolungfish/cumpyl.git
+cd cumpyl
+uv sync  # Creates virtual environment and installs all dependencies
+
+# Activate environment
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+```
+
+### Traditional Installation
+
+#### Using Conda/Mamba
 
 ```bash
 mamba create -n cumpyl -c conda-forge python=3.9
@@ -26,7 +45,7 @@ pip install lief capstone keystone-engine rich tqdm pyyaml
 pip install -e .
 ```
 
-### Using pip
+#### Using pip
 
 ```bash
 python -m venv cumpyl-env
@@ -37,6 +56,13 @@ pip install -e .
 
 ### Development Setup
 
+#### With uv (Recommended)
+```bash
+uv sync --extra dev --extra test
+python -m pytest tests/
+```
+
+#### Traditional
 ```bash
 pip install -e ".[dev,test]"
 python -m pytest tests/
