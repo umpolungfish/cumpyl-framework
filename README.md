@@ -6,12 +6,11 @@
 
 Cumpyl is a Python-based binary analysis framework for analyzing, modifying, and rewriting binary files (PE, ELF, Mach-O). It features plugin architecture, batch processing, and comprehensive reporting capabilities.
 
-**🆕 New in v0.3.1:** Modern Python package management with [uv](https://docs.astral.sh/uv/) support for blazing-fast installs and reproducible builds, while maintaining full backward compatibility with traditional pip/conda workflows.
-
 ## Key Features
 
 - **Plugin Architecture**: Dynamic plugin discovery with standardized interfaces
 - **Multi-Format Support**: Native support for PE, ELF, and Mach-O binaries
+- **Interactive Hex Viewer**: Browser-based hex dump with hover tooltips showing analysis details
 - **Batch Processing**: Multi-threaded processing with configurable worker pools
 - **Comprehensive Reporting**: HTML, JSON, YAML, and XML report generation
 - **YAML Configuration**: Centralized configuration with predefined analysis profiles
@@ -80,6 +79,12 @@ cumpyl binary.exe --analyze-sections
 # Get obfuscation recommendations
 cumpyl binary.exe --suggest-obfuscation
 
+# Generate interactive hex viewer
+cumpyl binary.exe --hex-view
+
+# Comprehensive analysis with interactive hex view
+cumpyl binary.exe --hex-view --run-analysis --suggest-obfuscation
+
 # Run comprehensive analysis with HTML report
 cumpyl binary.exe --run-analysis --report-format html --report-output analysis.html
 ```
@@ -133,6 +138,13 @@ performance:
   enable_parallel_processing: true
   max_worker_threads: 4
   batch_size: 50
+
+output:
+  hex_viewer:
+    enabled: true
+    max_display_bytes: 2048
+    color_scheme: "dark"
+    auto_add_analysis_annotations: true
 
 analysis_profiles:
   malware_analysis:
@@ -189,14 +201,6 @@ def get_plugin():
 - **Entropy Analysis**: Shannon entropy calculation for detecting packed/encrypted sections
 - **String Extraction**: Pattern matching for URLs, emails, file paths with context scoring
 
-## Screenshots
-
-### Help Interface
-![Help Interface](screencap_help.png)
-
-### Obfuscation Suggestions
-![Obfuscation Suggestions](screencap_suggest.png)
-
 ## Console Features
 
 ### Tier System
@@ -245,6 +249,7 @@ cumpyl/
 │   ├── config.py           # Configuration management
 │   ├── plugin_manager.py   # Plugin architecture
 │   ├── batch_processor.py  # Batch processing
+│   ├── hex_viewer.py       # Interactive hex viewer
 │   └── reporting.py        # Report generation
 ├── plugins/                 # Plugin ecosystem
 ├── tests/                   # Test suite
