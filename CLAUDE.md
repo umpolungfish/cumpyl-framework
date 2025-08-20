@@ -600,18 +600,44 @@ Cumpyl follows these core principles:
 
 ---
 
-**🔥 This framework has evolved from a simple binary encoding tool into a comprehensive binary analysis platform suitable for malware research, forensics, and security analysis. The v0.3.0 release represents months of intensive development and architectural refinement!**
-## Recent Fixes (v0.3.1)
+**🔥 This framework has evolved from a simple binary encoding tool into a comprehensive binary analysis platform suitable for malware research, forensics, and security analysis. The v0.3.0 release represents months of intensive development and architectural refinement!**## Interactive Menu System
 
-### Bug Fixes
-- Fixed syntax error in menu_system.py where a docstring had a stray backslash
-- Fixed escaped quote issues throughout menu_system.py that were causing syntax errors
-- Fixed import issues in cumpyl.py where ReportGenerator was referenced before assignment due to local variable naming conflicts
-- Fixed filename generation issue where output files were named with full paths instead of just the basename
-- Fixed hex viewer interactive mode to properly require both --hex-view and --hex-view-interactive flags
+### Rich Console Interface
 
-### Enhancements
-- Updated menu system to correctly generate commands for hex viewer interactive mode
-- Improved error handling and code structure in the main cumpyl.py file
-- Enhanced batch processing to work correctly with analyze_sections operation
+The framework features a comprehensive interactive menu system built with the Rich library, providing:
 
+- **Visual Hierarchy**: Color-coded panels and tables for clear information organization
+- **Guided Navigation**: Intuitive menu flows with clear option descriptions
+- **Command Previews**: Real-time command generation with copy-ready syntax
+- **Contextual Help**: Inline documentation and usage examples
+- **Progress Feedback**: Visual indicators for long-running operations
+
+### Menu Architecture
+
+The menu system is organized into specialized subsystems:
+
+1. **Main Menu**: Central hub for all major functionality
+2. **Quick Analysis**: Rapid binary assessment and recommendations
+3. **Deep Analysis**: Comprehensive plugin-driven examination
+4. **Interactive Hex Viewer**: Browser-based binary exploration
+5. **Batch Processing**: Multi-file workflow automation
+6. **Encoding Operations**: Section obfuscation and transformation
+7. **Report Generation**: Multi-format analysis output
+8. **Configuration**: Framework settings and profile management
+
+### User Experience Features
+
+- **Progressive Disclosure**: Complex options revealed through layered menus
+- **Default Selections**: Intelligent defaults for common operations
+- **Error Recovery**: Graceful handling of invalid inputs
+- **Session Persistence**: Maintains context between menu transitions
+- **Direct CLI Integration**: Generated commands can be copied for automation
+
+### Menu Development
+
+The menu system is implemented in `cumpyl_package/menu_system.py` with:
+
+- **Modular Design**: Separate methods for each menu subsystem
+- **Dynamic Generation**: Runtime command construction based on context
+- **Extensibility**: Easy addition of new menu options and subsystems
+- **Consistent Styling**: Unified visual language across all interfaces
