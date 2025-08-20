@@ -1,2 +1,1 @@
 cumpyl_package
-tests

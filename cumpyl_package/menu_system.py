@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑹 Cumpyl Framework
 Interactive menu system for Cumpyl Framework
 """
 
@@ -21,16 +22,16 @@ except ImportError:
 
 
 class CumpylMenu:
-    """Interactive menu system for Cumpyl Framework"""
+    """𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑹 Cumpyl"""
     
     def __init__(self, config: ConfigManager = None):
-        """Initialize the menu system"""
+        """𐑦𐑯𐑦𐑖𐑩𐑤𐑲𐑟 𐑞 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥"""
         self.console = Console()
         self.config = config
         self.target_file = None
         
     def show_banner(self):
-        """Display the Cumpyl banner"""
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑞 Cumpyl 𐑚𐑨𐑯𐑼"""
         banner_text = Text()
         banner_text.append("🔥 CUMPYL FRAMEWORK v0.3.0 🔥\n", style="bold red")
         banner_text.append("Advanced Binary Analysis & Rewriting Platform\n", style="bold cyan")
@@ -48,21 +49,21 @@ class CumpylMenu:
         self.console.print()
         
     def select_target_file(self) -> bool:
-        """Select the target binary file"""
+        """𐑕𐑧𐑤𐑧𐑒𐑑 𐑞 𐑑𐑸𐑜𐑧𐑑 𐑚𐑲𐑯𐑩𐑮𐑦 𐑓𐑲𐑤"""
         self.console.print(Panel("🎯 Target File Selection", style="bold green"))
         
-        # Scan for recent files in the current directory
+        # 𐑕𐑴 𐑮𐑦𐑕𐑧𐑯𐑑 𐑓𐑲𐑤𐑟 𐑦𐑯 𐑞 𐑒𐑻𐑩𐑯𐑑 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦
         current_dir = os.getcwd()
         binary_files = []
         
-        # Look for common binary extensions
+        # 𐑤𐑵𐑒 𐑓𐑹 𐑒𐑪𐑥𐑩𐑯 𐑚𐑲𐑯𐑩𐑮𐑦 𐑦𐑒𐑕𐑑𐑧𐑯𐑖𐑩𐑯𐑟
         for root, dirs, files in os.walk(current_dir):
             for file in files:
                 if file.lower().endswith(('.exe', '.dll', '.so', '.bin', '.elf')):
                     rel_path = os.path.relpath(os.path.join(root, file), current_dir)
-                    if len(rel_path) < 80:  # Only show reasonable length paths
+                    if len(rel_path) < 80:  # 𐑴𐑯𐑤𐑦 𐑕𐑴 𐑮𐑰𐑟𐑩𐑯𐑩𐑚𐑩𐑤 𐑤𐑧𐑙𐑔 𐑐𐑨𐑔𐑟
                         binary_files.append(rel_path)
-                if len(binary_files) >= 20:  # Limit to 20 files
+                if len(binary_files) >= 20:  # 𐑤𐑦𐑥𐑦𐑑 𐑑 20 𐑓𐑲𐑤𐑟
                     break
             if len(binary_files) >= 20:
                 break
@@ -75,7 +76,7 @@ class CumpylMenu:
             table.add_column("File Path", style="green")
             table.add_column("Size", style="yellow", width=12)
             
-            for i, file_path in enumerate(binary_files[:15]):  # Show top 15
+            for i, file_path in enumerate(binary_files[:15]):  # 𐑕𐑴 𐑑𐑩𐑐 15
                 try:
                     size = os.path.getsize(file_path)
                     if size > 1024*1024:
@@ -104,7 +105,7 @@ class CumpylMenu:
         else:
             self.target_file = Prompt.ask("Enter path to binary file")
         
-        # Verify the file exists
+        # 𐑝𐑧𐑮𐑦𐑓𐑲 𐑞 𐑓𐑲𐑤 𐑦𐑜𐑟𐑦𐑕𐑑𐑕
         if not os.path.exists(self.target_file):
             self.console.print(f"[red]❌ File not found: {self.target_file}[/red]")
             return False
@@ -113,7 +114,7 @@ class CumpylMenu:
         return True
         
     def show_main_menu(self) -> str:
-        """Display the main menu"""
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑞 𐑥𐑱𐑯 𐑥𐑧𐑯𐑿"""
         menu_options = [
             ("1", "🔍 Quick Analysis", "Fast section analysis and obfuscation suggestions"),
             ("2", "🧪 Deep Analysis", "Comprehensive plugin-based analysis with reporting"),
@@ -153,7 +154,7 @@ class CumpylMenu:
         )
         
     def quick_analysis_menu(self):
-        """Quick analysis menu"""
+        """𐑒𐑢𐑦𐑒 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🔍 Quick Analysis Options", style="bold green"))
         
         options = [
@@ -183,17 +184,17 @@ class CumpylMenu:
         if choice == "b":
             return
         
-        # Execute the selected command
+        # 𐑧𐑒𐑕𐑦𐑒𐑿𐑑 𐑞 𐑧𐑤𐑧𐑒𐑑𐑦𐑛 𐑒𐑩𐑥𐑭𐑯𐑛
         cmd = options[int(choice) - 1][2]
         self.execute_command(cmd)
         
     def hex_viewer_menu(self):
-        """Interactive hex viewer menu"""
+        """𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🔧 Interactive Hex Viewer Options", style="bold magenta"))
         
         options = [
             ("1", "Basic Hex View", f"cumpyl {self.target_file} --hex-view"),
-            ("2", "Interactive Section Selection", f"cumpyl {self.target_file} --hex-view-interactive"),
+            ("2", "Interactive Section Selection", f"cumpyl {self.target_file} --hex-view --hex-view-interactive"),
             ("3", "Hex + Full Analysis", f"cumpyl {self.target_file} --hex-view --run-analysis --suggest-obfuscation"),
             ("4", "Custom Range (specify offset)", "Custom command builder"),
             ("5", "View Specific Section", "Custom section selector"),
@@ -220,7 +221,7 @@ class CumpylMenu:
         if choice == "b":
             return
         elif choice == "4":
-            # Custom range input
+            # 𐑒𐑩𐑕𐑑𐑩𐑥 𐑮𐑱𐑯𐑡 𐑦𐑯𐑐𐑫𐑑
             offset = Prompt.ask("Enter starting offset (hex like 0x1000 or decimal)", default="0x0")
             bytes_count = Prompt.ask("Enter number of bytes to display", default="2048")
             analysis = Confirm.ask("Include analysis and suggestions?", default=True)
@@ -231,7 +232,7 @@ class CumpylMenu:
             
             self.execute_command(cmd)
         elif choice == "5":
-            # Section selector
+            # 𐑕𐑧𐑒𐑖𐑩𐑯 𐑕𐑧𐑤𐑧𐑒𐑑𐑼
             section = Prompt.ask("Enter section name (e.g., .text, .data, .rdata)", default=".text")
             analysis = Confirm.ask("Include analysis and suggestions?", default=True)
             
@@ -245,7 +246,7 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def deep_analysis_menu(self):
-        """Deep analysis menu"""
+        """𐑛𐑰𐑐 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🧪 Deep Analysis Options", style="bold blue"))
         
         options = [
@@ -303,7 +304,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select batch processing option[/yellow]",
+            "\\n[yellow]Select batch processing option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -351,7 +352,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select encoding option[/yellow]",
+            "\\n[yellow]Select encoding option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -372,7 +373,7 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def report_generation_menu(self):
-        """Report generation menu"""
+        """𐑮𐑦𐑐𐑹𐑑 𐑡𐑧𐑯𐑼𐑱𐑖𐑩𐑯 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("📊 Report Generation Options", style="bold green"))
         
         options = [
@@ -395,7 +396,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select report format[/yellow]",
+            "\\n[yellow]Select report format[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -420,7 +421,7 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def configuration_menu(self):
-        """Configuration menu"""
+        """𐑒𐑪𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("⚙️ Configuration Options", style="bold magenta"))
         
         options = [
@@ -442,7 +443,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select configuration option[/yellow]",
+            "\\n[yellow]Select configuration option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -450,7 +451,7 @@ class CumpylMenu:
         if choice == "b":
             return
         elif choice == "3":
-            self.console.print("\n[bold cyan]Available Analysis Profiles:[/bold cyan]")
+            self.console.print("\\n[bold cyan]Available Analysis Profiles:[/bold cyan]")
             profiles = [
                 ("malware_analysis", "Advanced malware detection and analysis"),
                 ("forensics", "Digital forensics and evidence collection"),
@@ -465,19 +466,19 @@ class CumpylMenu:
                 profile_table.add_row(profile, desc)
             
             self.console.print(profile_table)
-            self.console.print("\n[dim]Use --profile <name> to apply a profile[/dim]")
+            self.console.print("\\n[dim]Use --profile <name> to apply a profile[/dim]")
             Prompt.ask("Press Enter to continue", default="")
         else:
             cmd = options[int(choice) - 1][2]
             self.execute_command(cmd)
     
     def execute_command(self, command: str):
-        """Execute a Cumpyl command"""
+        """𐑧𐑒𐑕𐑦𐑒𐑿𐑑 𐑩 Cumpyl 𐑒𐑩𐑥𐑭𐑯𐑛"""
         self.console.print(f"\n[bold green]🚀 Executing:[/bold green] [cyan]{command}[/cyan]")
         self.console.print("─" * 80)
         
         try:
-            # Run the command in the same Python environment
+            # 𐑮𐑩𐑯 𐑞 𐑒𐑩𐑥𐑭𐑯𐑛 𐑦𐑯 𐑞 𐑕𐑱𐑥 Python 𐑧𐑯𐑝𐑲𐑼𐑩𐑯𐑥𐑩𐑯𐑑
             result = subprocess.run(
                 ["python", "-m", "cumpyl_package.cumpyl"] + command.split()[1:],
                 capture_output=False,
@@ -497,7 +498,7 @@ class CumpylMenu:
         Prompt.ask("Press Enter to continue", default="")
     
     def show_help(self):
-        """Display help information"""
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑣𐑧𐑤𐑐 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"""
         help_text = """
 🔥 **CUMPYL FRAMEWORK** - Advanced Binary Analysis & Rewriting Platform
 
@@ -552,10 +553,10 @@ For detailed documentation, check the CLAUDE.md file in the project directory.
         Prompt.ask("\nPress Enter to continue", default="")
     
     def run(self):
-        """Run the interactive menu loop"""
+        """𐑮𐑳𐑯 𐑞 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑤𐑵𐑐"""
         self.show_banner()
         
-        # If no target file is set, select one
+        # 𐑦𐑓 𐑯𐑴 𐑑𐑸𐑜𐑧𐑑 𐑓𐑲𐑤 𐑦𐑟 𐑕𐑧𐑑, 𐑕𐑧𐑤𐑧𐑒𐑑 𐑢𐑳𐑯
         if not self.target_file:
             if not self.select_target_file():
                 return
@@ -594,7 +595,7 @@ For detailed documentation, check the CLAUDE.md file in the project directory.
 
 
 def launch_menu(config: ConfigManager = None, target_file: str = None):
-    """Launch the interactive menu"""
+    """𐑤𐑷𐑯𐑗 𐑞 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿"""
     menu = CumpylMenu(config)
     if target_file:
         menu.target_file = target_file

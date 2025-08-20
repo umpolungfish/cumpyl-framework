@@ -17,7 +17,7 @@ try:
     from .batch_processor import BatchProcessor
     from .reporting import ReportGenerator
 except ImportError:
-    # 𐑯 𐑑𐑦𐑝 𐑦𐑥𐑐𐑹𐑑 𐑓𐑹𐑤𐑚𐑨𐑒
+    # Fallback import for direct script execution
     import sys
     import os
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -937,10 +937,8 @@ def main():
     if args.hex_view:
         try:
             from .hex_viewer import HexViewer
-            from .reporting import ReportGenerator
         except ImportError:
             from hex_viewer import HexViewer
-            from reporting import ReportGenerator
         
         # 𐑣𐑨𐑯𐑛𐑩𐑤 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑕𐑧𐑤𐑧𐑒𐑖𐑩𐑯
         if args.hex_view_interactive:
@@ -1046,10 +1044,17 @@ def main():
         print(f"[+] Interactive hex view with integrated analysis saved to: {hex_output_file}")
         return
 
+    # Check if we need a report generator for any of the following operations
+    need_report_generator = (
+        (args.hex_view and args.run_analysis) or
+        (args.run_analysis and (args.generate_report or args.report_output))
+    )
+    
+    if need_report_generator:
+        report_generator = ReportGenerator(config)
+
     # 𐑡𐑧𐑯𐑼𐑱𐑑 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑮𐑦𐑐𐑹𐑑 𐑦𐑓 𐑮𐑦𐑒𐑢𐑧𐑕𐑜𐑦𐑛 (𐑩𐑯 𐑯𐑪𐑑 𐑣𐑧𐑒𐑕 𐑝𐑿)
     if args.run_analysis and (args.generate_report or args.report_output):
-        report_generator = ReportGenerator(config)
-        
         # 𐑒𐑮𐑦𐑱𐑑 𐑩 𐑒𐑩𐑥𐑐𐑮𐑦𐑣𐑧𐑯𐑕𐑦𐑝 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑮𐑦𐑐𐑹𐑑
         basic_analysis = rewriter.analyze_binary()
         report_data = report_generator.create_analysis_report(
@@ -1191,8 +1196,8 @@ def main():
         print("[-] Binary validation failed")
         return
 
-    # 𐑕𐑱𐑝
-    output_file = args.output or f"modified_{args.input}"
+    # Save
+    output_file = args.output or f"modified_{os.path.basename(args.input)}"
     if not rewriter.save_binary(output_file):
         return
 
