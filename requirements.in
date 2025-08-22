@@ -5,6 +5,7 @@ keystone-engine
 rich
 tqdm
 pyyaml
+textual  # 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑑𐑧𐑒𐑕𐑑𐑿𐑩𐑤 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼 TUI
 
 # 𐑛𐑧𐑝𐑧𐑤𐑩𐑐𐑥𐑩𐑯𐑑 𐑛𐑦𐑐𐑧𐑯𐑛𐑩𐑯𐑕𐑦𐑟 (𐑦𐑯𐑕𐑑𐑷𐑤 𐑢𐑦𐑞 --extra dev)
 numpy  # 𐑯𐑰𐑛𐑦𐑛 𐑓𐑹 𐑧𐑯𐑑𐑮𐑩𐑐𐑦 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑐𐑤𐑳𐑜𐑦𐑯

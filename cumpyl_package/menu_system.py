@@ -193,12 +193,13 @@ class CumpylMenu:
         self.console.print(Panel("🔧 Interactive Hex Viewer Options", style="bold magenta"))
         
         options = [
-            ("1", "Basic Hex View", f"cumpyl {self.target_file} --hex-view"),
-            ("2", "Interactive Section Selection", f"cumpyl {self.target_file} --hex-view --hex-view-interactive"),
-            ("3", "Hex + Full Analysis", f"cumpyl {self.target_file} --hex-view --run-analysis --suggest-obfuscation"),
-            ("4", "Custom Range (specify offset)", "Custom command builder"),
-            ("5", "View Specific Section", "Custom section selector"),
-            ("6", "Large File View (8KB)", f"cumpyl {self.target_file} --hex-view --hex-view-bytes 8192"),
+            ("1", "Basic Hex View (HTML)", f"cumpyl {self.target_file} --hex-view"),
+            ("2", "Interactive Section Selection (HTML)", f"cumpyl {self.target_file} --hex-view --hex-view-interactive"),
+            ("3", "Interactive Terminal Hex Viewer", "Launch TUI hex viewer with navigation"),
+            ("4", "Hex + Full Analysis", f"cumpyl {self.target_file} --hex-view --run-analysis --suggest-obfuscation"),
+            ("5", "Custom Range (specify offset)", "Custom command builder"),
+            ("6", "View Specific Section", "Custom section selector"),
+            ("7", "Large File View (8KB)", f"cumpyl {self.target_file} --hex-view --hex-view-bytes 8192"),
             ("b", "Back to Main Menu", "")
         ]
         
@@ -215,12 +216,15 @@ class CumpylMenu:
         choice = Prompt.ask(
             "\n[yellow]Select hex viewer option[/yellow]",
             choices=[opt[0] for opt in options],
-            default="2"
+            default="3"
         )
         
         if choice == "b":
             return
-        elif choice == "4":
+        elif choice == "3":
+            # 𐑤𐑷𐑯𐑗 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑑𐑧𐑒𐑕𐑑𐑿𐑩𐑤 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼
+            self.launch_textual_hex_viewer()
+        elif choice == "5":
             # 𐑒𐑩𐑕𐑑𐑩𐑥 𐑮𐑱𐑯𐑡 𐑦𐑯𐑐𐑫𐑑
             offset = Prompt.ask("Enter starting offset (hex like 0x1000 or decimal)", default="0x0")
             bytes_count = Prompt.ask("Enter number of bytes to display", default="2048")
@@ -231,7 +235,7 @@ class CumpylMenu:
                 cmd += " --run-analysis --suggest-obfuscation"
             
             self.execute_command(cmd)
-        elif choice == "5":
+        elif choice == "6":
             # 𐑕𐑧𐑒𐑖𐑩𐑯 𐑕𐑧𐑤𐑧𐑒𐑑𐑼
             section = Prompt.ask("Enter section name (e.g., .text, .data, .rdata)", default=".text")
             analysis = Confirm.ask("Include analysis and suggestions?", default=True)
@@ -471,6 +475,98 @@ class CumpylMenu:
         else:
             cmd = options[int(choice) - 1][2]
             self.execute_command(cmd)
+    
+    def launch_textual_hex_viewer(self):
+        """𐑤𐑷𐑯𐑗 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑑𐑧𐑒𐑕𐑑𐑿𐑩𐑤 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼"""
+        try:
+            from .hex_viewer import launch_textual_hex_viewer
+            from .cumpyl import BinaryRewriter
+        except ImportError:
+            import sys
+            import os
+            sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+            from hex_viewer import launch_textual_hex_viewer
+            from cumpyl import BinaryRewriter
+            
+        self.console.print("[yellow]Loading file for interactive hex viewer...[/yellow]")
+        
+        # ✅ Launch the new Textual hex viewer directly with file path
+        self.console.print(f"[cyan]Launching advanced hex viewer for: {self.target_file}[/cyan]")
+        
+        try:
+            # Check if we're in an interactive terminal
+            import sys
+            if not sys.stdin.isatty() or not sys.stdout.isatty():
+                self.console.print("[yellow]Non-interactive terminal detected, using fallback viewer[/yellow]")
+                raise Exception("Non-interactive terminal")
+            
+            launch_textual_hex_viewer(self.target_file)
+            return
+        except Exception as hex_error:
+            if "Non-interactive terminal" not in str(hex_error):
+                self.console.print(f"[red]Textual hex viewer error: {hex_error}[/red]")
+            self.console.print("[yellow]Using fallback hex viewer...[/yellow]")
+            
+        # Fallback to basic implementation if textual viewer fails
+        try:
+            with open(self.target_file, 'rb') as f:
+                binary_data = f.read()
+                
+            if not binary_data:
+                self.console.print(f"[red]File is empty: {self.target_file}[/red]")
+                return
+        except Exception as e:
+            self.console.print(f"[red]Error reading file: {e}[/red]")
+            return
+        
+        # 📊 𐑞𐑮𐑲 𐑑 𐑤𐑴𐑛 𐑨𐑟 𐑚𐑲𐑯𐑩𐑮𐑦 𐑓𐑹 𐑧𐑯𐑣𐑨𐑯𐑕𐑑 𐑨𐑯𐑴𐑑𐑱𐑖𐑩𐑯𐑟 (𐑪𐑐𐑖𐑩𐑯𐑩𐑤)
+        from .hex_viewer import HexViewer
+        hex_viewer = HexViewer(self.config)
+        rewriter = None
+        try:
+            rewriter = BinaryRewriter(self.target_file, self.config)
+            if rewriter.load_binary():
+                self.console.print("[green]✅ Detected structured binary (PE/ELF/Mach-O)[/green]")
+                # 𐑨𐑛 𐑕𐑧𐑒𐑖𐑩𐑯 𐑨𐑯𐑴𐑑𐑱𐑖𐑩𐑯𐑟
+                if rewriter.binary and hasattr(rewriter.binary, 'sections'):
+                    sections = list(rewriter.binary.sections)
+                    hex_viewer.add_section_annotations(sections)
+                    
+                # 🔍 𐑩𐑕𐑒 𐑓𐑹 𐑧𐑯𐑣𐑨𐑯𐑕𐑑 𐑨𐑯𐑨𐑤𐑦𐑟𐑦𐑕
+                from rich.prompt import Confirm
+                if Confirm.ask("Run analysis plugins for enhanced annotations?", default=True):
+                    try:
+                        analysis_results = rewriter.run_plugin_analysis()
+                        hex_viewer.add_analysis_annotations(analysis_results)
+                        
+                        # 𐑨𐑛 𐑪𐑚𐑓𐑳𐑕𐑒𐑱𐑖𐑩𐑯 𐑕𐑩𐑜𐑧𐑕𐑑𐑩𐑯𐑟
+                        suggestions = rewriter.suggest_obfuscation()
+                        hex_viewer.add_suggestion_annotations(suggestions)
+                    except Exception as e:
+                        self.console.print(f"[yellow]⚠️  Analysis failed, continuing with basic hex view: {str(e)}[/yellow]")
+            else:
+                self.console.print("[blue]ℹ️  Raw binary file (no structured format detected)[/blue]")
+        except Exception as e:
+            self.console.print(f"[blue]ℹ️  Treating as raw binary file: {str(e)}[/blue]")
+            
+        self.console.print(f"[green]📁 Loaded {len(binary_data)} bytes for hex viewing[/green]")
+        self.console.print("[green]Launching fallback hex viewer...[/green]")
+        self.console.print("[yellow]Note: For the full interactive experience, use the Textual hex viewer option[/yellow]")
+        
+        # 📋 Basic hex dump implementation as fallback
+        self.console.print(f"\n[bold cyan]Hex dump of first 512 bytes:[/bold cyan]")
+        hex_lines = []
+        for i in range(0, min(512, len(binary_data)), 16):
+            line_data = binary_data[i:i+16]
+            hex_part = ' '.join(f'{b:02x}' for b in line_data)
+            ascii_part = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in line_data)
+            hex_lines.append(f"{i:08x}  {hex_part:<48} |{ascii_part}|")
+        
+        for line in hex_lines:
+            self.console.print(f"[dim]{line}[/dim]")
+        
+        if len(binary_data) > 512:
+            self.console.print(f"\n[yellow]... and {len(binary_data) - 512} more bytes[/yellow]")
     
     def execute_command(self, command: str):
         """𐑧𐑒𐑕𐑦𐑒𐑿𐑑 𐑩 Cumpyl 𐑒𐑩𐑥𐑭𐑯𐑛"""
