@@ -1,5 +1,8 @@
 # Cumpyl - Binary Analysis & Rewriting Framework
 
+![Sexy Image 1](images/sexy1.png)
+![Sexy Image 2](images/sexy2.png)
+
 [![Framework Version](https://img.shields.io/badge/version-0.3.0-brightgreen.svg)](https://github.com/yourusername/cumpyl)
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-Unlicense-green.svg)](LICENSE)
