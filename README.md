@@ -42,6 +42,7 @@ cumpyl analyze ./bins/*.elf --report html --output ./reports/
 
 - **Plugin Architecture**: Dynamic plugin discovery with standardized interfaces
 - **Multi-Format Support**: Native support for PE, ELF, and Mach-O binaries
+- **Payload Transmutation**: Advanced payload encoding and obfuscation tool with 12+ methods
 - **Dual-Mode Hex Viewer**: Terminal TUI viewer (NEW!) + traditional browser-based hex dumps
 - **Interactive Terminal Interface**: Full-featured TUI hex viewer with vim-like controls and real-time search
 - **Batch Processing**: Multi-threaded processing with configurable worker pools
