@@ -44,7 +44,7 @@ class TransmuterPlugin(AnalysisPlugin):
         # Add binary information if available
         if rewriter is not None and hasattr(rewriter, 'binary') and rewriter.binary is not None:
             try:
-                results["analysis"]["binary_size"] = len(rewriter.binary.content) if hasattr(rewriter.binary, 'content') else 0
+                results["analysis"]["binary_size"] = getattr(rewriter.binary, 'original_size', 0) or (len(rewriter.binary.content) if hasattr(rewriter.binary, 'content') else 0)
                 results["analysis"]["sections_count"] = len(rewriter.binary.sections) if hasattr(rewriter.binary, 'sections') else 0
                 
                 # Analyze sections for obfuscation potential
@@ -72,6 +72,51 @@ class TransmuterPlugin(AnalysisPlugin):
                 results["error"] = f"Analysis failed: {str(e)}"
         
         return results
+    
+    def _is_executable_section(self, section) -> bool:
+        """Check if a section is executable"""
+        try:
+            # PE files
+            if hasattr(section, 'characteristics'):
+                import lief
+                return bool(section.characteristics & lief.PE.SECTION_CHARACTERISTICS.MEM_EXECUTE)
+            # ELF files
+            elif hasattr(section, 'flags'):
+                import lief
+                return bool(section.flags & lief.ELF.SECTION_FLAGS.EXECINSTR)
+        except:
+            pass
+        return False
+    
+    def _is_readable_section(self, section) -> bool:
+        """Check if a section is readable"""
+        try:
+            # PE files
+            if hasattr(section, 'characteristics'):
+                import lief
+                return bool(section.characteristics & lief.PE.SECTION_CHARACTERISTICS.MEM_READ)
+            # ELF files
+            elif hasattr(section, 'flags'):
+                import lief
+                return bool(section.flags & lief.ELF.SECTION_FLAGS.ALLOC)
+        except:
+            pass
+        return True
+    
+    def _is_writable_section(self, section) -> bool:
+        """Check if a section is writable"""
+        try:
+            # PE files
+            if hasattr(section, 'characteristics'):
+                import lief
+                return bool(section.characteristics & lief.PE.SECTION_CHARACTERISTICS.MEM_WRITE)
+            # ELF files
+            elif hasattr(section, 'flags'):
+                import lief
+                return bool(section.flags & lief.ELF.SECTION_FLAGS.WRITE)
+        except:
+            pass
+        return False
     
     def _is_executable_section(self, section) -> bool:
         """Check if a section is executable"""

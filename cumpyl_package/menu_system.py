@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑹 Cumpyl Framework
 Interactive menu system for Cumpyl Framework
 """
 
@@ -19,17 +20,18 @@ try:
 except ImportError:
     from config import ConfigManager
 
+
 class CumpylMenu:
-    \"\"\"Interactive menu system for Cumpyl\"\"\"
+    """𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑹 Cumpyl"""
     
     def __init__(self, config: ConfigManager = None):
-        \"\"\"Initialise the menu system\"\"\"
+        """𐑦𐑯𐑦𐑖𐑩𐑤𐑲𐑟 𐑞 𐑥𐑧𐑯𐑿 𐑕𐑦𐑕𐑑𐑩𐑥"""
         self.console = Console()
         self.config = config
         self.target_file = None
         
     def show_banner(self):
-        \"\"\"Display the Cumpyl banner\"\"\"
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑞 Cumpyl 𐑚𐑨𐑯𐑼"""
         banner_text = Text()
         banner_text.append("🔥 CUMPYL FRAMEWORK v0.3.0 🔥\n", style="bold red")
         banner_text.append("Advanced Binary Analysis & Rewriting Platform\n", style="bold cyan")
@@ -47,21 +49,21 @@ class CumpylMenu:
         self.console.print()
         
     def select_target_file(self) -> bool:
-        \"\"\"Select the target binary file\"\"\"
+        """𐑕𐑧𐑤𐑧𐑒𐑑 𐑞 𐑑𐑸𐑜𐑧𐑑 𐑚𐑲𐑯𐑩𐑮𐑦 𐑓𐑲𐑤"""
         self.console.print(Panel("🎯 Target File Selection", style="bold green"))
         
-        # Show recent files in the current directory
+        # 𐑕𐑴 𐑮𐑦𐑕𐑧𐑯𐑑 𐑓𐑲𐑤𐑟 𐑦𐑯 𐑞 𐑒𐑻𐑩𐑯𐑑 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦
         current_dir = os.getcwd()
         binary_files = []
         
-        # Look for common binary extensions
+        # 𐑤𐑵𐑒 𐑓𐑹 𐑒𐑪𐑥𐑩𐑯 𐑚𐑲𐑯𐑩𐑮𐑦 𐑦𐑒𐑕𐑑𐑧𐑯𐑖𐑩𐑯𐑟
         for root, dirs, files in os.walk(current_dir):
             for file in files:
                 if file.lower().endswith(('.exe', '.dll', '.so', '.bin', '.elf')):
                     rel_path = os.path.relpath(os.path.join(root, file), current_dir)
-                    if len(rel_path) < 80:  # Only show reasonable length paths
+                    if len(rel_path) < 80:  # 𐑴𐑯𐑤𐑦 𐑕𐑴 𐑮𐑰𐑟𐑩𐑯𐑩𐑚𐑩𐑤 𐑤𐑧𐑙𐑔 𐑐𐑨𐑔𐑟
                         binary_files.append(rel_path)
-                if len(binary_files) >= 20:  # Limit to 20 files
+                if len(binary_files) >= 20:  # 𐑤𐑦𐑥𐑦𐑑 𐑑 20 𐑓𐑲𐑤𐑟
                     break
             if len(binary_files) >= 20:
                 break
@@ -74,7 +76,7 @@ class CumpylMenu:
             table.add_column("File Path", style="green")
             table.add_column("Size", style="yellow", width=12)
             
-            for i, file_path in enumerate(binary_files[:15]):  # Show top 15
+            for i, file_path in enumerate(binary_files[:15]):  # 𐑕𐑴 𐑑𐑩𐑐 15
                 try:
                     size = os.path.getsize(file_path)
                     if size > 1024*1024:
@@ -103,7 +105,7 @@ class CumpylMenu:
         else:
             self.target_file = Prompt.ask("Enter path to binary file")
         
-        # Verify the file exists
+        # 𐑝𐑧𐑮𐑦𐑓𐑲 𐑞 𐑓𐑲𐑤 𐑦𐑜𐑟𐑦𐑕𐑑𐑕
         if not os.path.exists(self.target_file):
             self.console.print(f"[red]❌ File not found: {self.target_file}[/red]")
             return False
@@ -112,7 +114,7 @@ class CumpylMenu:
         return True
         
     def show_main_menu(self) -> str:
-        \"\"\"Display the main menu\"\"\"
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑞 𐑥𐑱𐑯 𐑥𐑧𐑯𐑿"""
         menu_options = [
             ("1", "🔍 Quick Analysis", "Fast section analysis and obfuscation suggestions"),
             ("2", "🧪 Deep Analysis", "Comprehensive plugin-based analysis with reporting"),
@@ -120,7 +122,7 @@ class CumpylMenu:
             ("4", "⚡ Batch Processing", "Process multiple files with automated workflows"),
             ("5", "🎯 Encoding Operations", "Obfuscate specific sections with various encodings"),
             ("6", "🔓 Payload Transmutation", "Transform payloads with advanced obfuscation techniques"),
-            ("7", "📦 PE Packer (Real)", "Pack and obfuscate PE files with compression and encryption"),
+            ("7", "📦 Binary Packers", "Analyze and pack binaries with compression and encryption (Plugin-based and Real Packer)"),
             ("8", "📊 Generate Reports", "Create detailed analysis reports in multiple formats"),
             ("9", "⚙️ Configuration", "View and modify framework settings"),
             ("10", "📁 Change Target", "Select a different binary file"),
@@ -132,7 +134,7 @@ class CumpylMenu:
         
         table = Table(show_header=False, box=None, padding=(0, 2))
         table.add_column("Option", style="bold cyan", width=8)
-        table.add_column("Action", style="bold white", width=35)
+        table.add_column("Action", style="bold white", width=25)
         table.add_column("Description", style="dim")
         
         for option, action, description in menu_options:
@@ -154,7 +156,7 @@ class CumpylMenu:
         )
         
     def quick_analysis_menu(self):
-        \"\"\"Quick analysis menu\"\"\"
+        """𐑒𐑢𐑦𐑒 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🔍 Quick Analysis Options", style="bold green"))
         
         options = [
@@ -184,12 +186,12 @@ class CumpylMenu:
         if choice == "b":
             return
         
-        # Execute the selected command
+        # 𐑧𐑒𐑕𐑦𐑒𐑿𐑑 𐑞 𐑧𐑤𐑧𐑒𐑑𐑦𐑛 𐑒𐑩𐑥𐑭𐑯𐑛
         cmd = options[int(choice) - 1][2]
         self.execute_command(cmd)
         
     def hex_viewer_menu(self):
-        \"\"\"Interactive hex viewer menu\"\"\"
+        """𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🔧 Interactive Hex Viewer Options", style="bold magenta"))
         
         options = [
@@ -222,10 +224,10 @@ class CumpylMenu:
         if choice == "b":
             return
         elif choice == "3":
-            # Launch interactive textual hex viewer
+            # 𐑤𐑷𐑯𐑗 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑑𐑧𐑒𐑕𐑑𐑿𐑩𐑤 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼
             self.launch_textual_hex_viewer()
         elif choice == "5":
-            # Custom range input
+            # 𐑒𐑩𐑕𐑑𐑩𐑥 𐑮𐑱𐑯𐑡 𐑦𐑯𐑐𐑫𐑑
             offset = Prompt.ask("Enter starting offset (hex like 0x1000 or decimal)", default="0x0")
             bytes_count = Prompt.ask("Enter number of bytes to display", default="2048")
             analysis = Confirm.ask("Include analysis and suggestions?", default=True)
@@ -236,7 +238,7 @@ class CumpylMenu:
             
             self.execute_command(cmd)
         elif choice == "6":
-            # Section selector
+            # 𐑕𐑧𐑒𐑖𐑩𐑯 𐑕𐑧𐑤𐑧𐑒𐑑𐑼
             section = Prompt.ask("Enter section name (e.g., .text, .data, .rdata)", default=".text")
             analysis = Confirm.ask("Include analysis and suggestions?", default=True)
             
@@ -250,7 +252,7 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def deep_analysis_menu(self):
-        \"\"\"Deep analysis menu\"\"\"
+        """𐑛𐑰𐑐 𐑩𐑯𐑨𐑤𐑦𐑟𐑦𐑕 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("🧪 Deep Analysis Options", style="bold blue"))
         
         options = [
@@ -286,7 +288,7 @@ class CumpylMenu:
         self.execute_command(cmd)
     
     def batch_processing_menu(self):
-        \"\"\"Batch processing menu\"\"\"
+        """Batch processing menu"""
         self.console.print(Panel("⚡ Batch Processing Options", style="bold yellow"))
         
         options = [
@@ -308,7 +310,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select batch processing option[/yellow]",
+            "\\n[yellow]Select batch processing option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -334,7 +336,7 @@ class CumpylMenu:
             Prompt.ask("Press Enter to continue", default="")
     
     def encoding_operations_menu(self):
-        \"\"\"Encoding operations menu\"\"\"
+        """Encoding operations menu"""
         self.console.print(Panel("🎯 Encoding Operations", style="bold red"))
         
         options = [
@@ -356,7 +358,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select encoding option[/yellow]",
+            "\\n[yellow]Select encoding option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -377,65 +379,102 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def pe_packer_menu(self):
-        \"\"\"PE Packer menu\"\"\"
-        self.console.print(Panel("📦 Real PE Packer Options", style="bold magenta"))
-        
-        options = [
-            ("1", "Analyze for Packing Opportunities", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {{target_file}} --analyze"),
-            ("2", "Pack Binary with Default Settings", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {{target_file}} --pack -o packed_{{output_file}}"),
-            ("3", "Pack Binary with Custom Settings", "Pack with custom compression level and password"),
-            ("4", "Unpack Binary", "Restore a previously packed binary"),
-            ("b", "Back to Main Menu", "")
-        ]
-        
-        table = Table(show_header=True, header_style="bold")
-        table.add_column("Option", style="cyan", width=8)
-        table.add_column("Description", style="white", width=30)
-        table.add_column("Command Preview", style="dim")
-        
-        for opt, desc, cmd in options:
-            table.add_row(opt, desc, cmd)
-        
-        self.console.print(table)
-        
-        choice = Prompt.ask(
-            "\n[yellow]Select PE Packer option[/yellow]",
-            choices=[opt[0] for opt in options],
-            default="2"
-        )
-        
-        if choice == "b":
-            return
-        elif choice == "3":
-            # Custom packer settings
-            compression_level = Prompt.ask("Compression level (1-9)", default="6")
-            password = Prompt.ask("Encryption password (leave empty for random)", default="")
+        """Binary Packers menu with plugin support"""
+        # Launch the new plugin-based packer menu
+        try:
+            from .plugin_packer_menu import launch_plugin_packer_menu
+            launch_plugin_packer_menu(self.config, self.target_file)
+        except ImportError as e:
+            self.console.print(f"[red]❌ Failed to load plugin packer menu: {e}[/red]")
+            self.console.print("[yellow]Falling back to real packer integration...[/yellow]")
             
-            output_file = Prompt.ask("Output file name", default=f"packed_{os.path.basename(self.target_file)}")
+            # Fallback to original real packer integration
+            self.console.print(Panel("📦 Binary Packers", style="bold magenta"))
             
-            cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o {output_file} --compression-level {compression_level}"
-            if password:
-                cmd += f" --password {password}"
+            options = [
+                ("1", "Analyze for Packing Opportunities", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --analyze"),
+                ("2", "Pack Binary (Generic PE)", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o packed_{os.path.basename(self.target_file)}"),
+                ("3", "Pack Binary (Go-aware)", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o packed_go_{os.path.basename(self.target_file)}"),
+                ("4", "Pack Binary (CGO-aware)", f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o packed_cgo_{os.path.basename(self.target_file)}"),
+                ("5", "Pack with Custom Settings", "Pack with custom compression level and password"),
+                ("6", "Unpack Binary", "Restore a previously packed binary"),
+                ("b", "Back to Main Menu", "")
+            ]
+            
+            table = Table(show_header=True, header_style="bold")
+            table.add_column("Option", style="cyan", width=8)
+            table.add_column("Description", style="white", width=35)
+            table.add_column("Details", style="dim")
+            
+            for opt, desc, cmd in options:
+                table.add_row(opt, desc, cmd)
                 
-            self.execute_command(cmd)
-        elif choice == "4":
-            # Unpack binary
-            password = Prompt.ask("Encryption password", default="")
-            output_file = Prompt.ask("Output file name", default=f"unpacked_{os.path.basename(self.target_file)}")
+            self.console.print(table)
             
-            cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --unpack -o {output_file}"
-            if password:
-                cmd += f" --password {password}"
+            choice = Prompt.ask(
+                "\n[yellow]Select packer option[/yellow]",
+                choices=[opt[0] for opt in options],
+                default="2"
+            )
+            
+            if choice == "b":
+                return
+            elif choice == "1":
+                # Analyze for Packing Opportunities
+                cmd = options[0][2]
+                self.execute_command(cmd)
+            elif choice == "2":
+                # Pack Binary (Generic PE)
+                self.console.print("[bold blue]Generic PE Binary Packing[/bold blue]")
+                self.console.print("[dim]Packing binary with standard compression and encryption[/dim]")
                 
-            self.execute_command(cmd)
-        else:
-            # Format the command with the target file
-            cmd_template = options[int(choice) - 1][2]
-            cmd = cmd_template.format(target_file=self.target_file, output_file=f"packed_{os.path.basename(self.target_file)}")
-            self.execute_command(cmd)
+                # Use the real packer for generic packing
+                output_file = f"packed_{os.path.basename(self.target_file)}"
+                cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o {output_file}"
+                self.execute_command(cmd)
+            elif choice == "3":
+                # Pack Binary (Go-aware)
+                self.console.print("[bold blue]Go-aware Binary Packing[/bold blue]")
+                self.console.print("[dim]Packing Go binary with Go-specific anti-detection techniques[/dim]")
+                
+                # Use the real packer but with Go-specific output naming
+                output_file = f"packed_go_{os.path.basename(self.target_file)}"
+                cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o {output_file}"
+                self.execute_command(cmd)
+            elif choice == "4":
+                # Pack Binary (CGO-aware)
+                self.console.print("[bold blue]CGO-aware Binary Packing[/bold blue]")
+                self.console.print("[dim]Packing CGO binary with CGO-specific anti-detection techniques[/dim]")
+                
+                # Use the real packer but with CGO-specific output naming
+                output_file = f"packed_cgo_{os.path.basename(self.target_file)}"
+                cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o {output_file}"
+                self.execute_command(cmd)
+            elif choice == "5":
+                # Custom packer settings
+                compression_level = Prompt.ask("Compression level (1-9)", default="6")
+                password = Prompt.ask("Encryption password (leave empty for random)", default="")
+                
+                output_file = Prompt.ask("Output file name", default=f"packed_{os.path.basename(self.target_file)}")
+                
+                cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --pack -o {output_file} --compression-level {compression_level}"
+                if password:
+                    cmd += f" --password {password}"
+                    
+                self.execute_command(cmd)
+            elif choice == "6":
+                # Unpack binary
+                password = Prompt.ask("Encryption password", default="")
+                output_file = Prompt.ask("Output file name", default=f"unpacked_{os.path.basename(self.target_file)}")
+                
+                cmd = f"python {os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'real_packer.py'))} {self.target_file} --unpack -o {output_file}"
+                if password:
+                    cmd += f" --password {password}"
+                    
+                self.execute_command(cmd)
     
     def report_generation_menu(self):
-        \"\"\"Report generation menu\"\"\"
+        """𐑮𐑦𐑐𐑹𐑑 𐑡𐑧𐑯𐑼𐑱𐑖𐑩𐑯 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("📊 Report Generation Options", style="bold green"))
         
         options = [
@@ -458,7 +497,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select report format[/yellow]",
+            "\\n[yellow]Select report format[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -483,7 +522,7 @@ class CumpylMenu:
             self.execute_command(cmd)
     
     def configuration_menu(self):
-        \"\"\"Configuration menu\"\"\"
+        """𐑒𐑪𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯 𐑥𐑧𐑯𐑿"""
         self.console.print(Panel("⚙️ Configuration Options", style="bold magenta"))
         
         options = [
@@ -505,7 +544,7 @@ class CumpylMenu:
         self.console.print(table)
         
         choice = Prompt.ask(
-            "\n[yellow]Select configuration option[/yellow]",
+            "\\n[yellow]Select configuration option[/yellow]",
             choices=[opt[0] for opt in options],
             default="1"
         )
@@ -513,7 +552,7 @@ class CumpylMenu:
         if choice == "b":
             return
         elif choice == "3":
-            self.console.print("\n[bold cyan]Available Analysis Profiles:[/bold cyan]")
+            self.console.print("\\n[bold cyan]Available Analysis Profiles:[/bold cyan]")
             profiles = [
                 ("malware_analysis", "Advanced malware detection and analysis"),
                 ("forensics", "Digital forensics and evidence collection"),
@@ -528,14 +567,14 @@ class CumpylMenu:
                 profile_table.add_row(profile, desc)
             
             self.console.print(profile_table)
-            self.console.print("\n[dim]Use --profile <name> to apply a profile[/dim]")
+            self.console.print("\\n[dim]Use --profile <name> to apply a profile[/dim]")
             Prompt.ask("Press Enter to continue", default="")
         else:
             cmd = options[int(choice) - 1][2]
             self.execute_command(cmd)
     
     def launch_textual_hex_viewer(self):
-        \"\"\"Launch interactive textual hex viewer\"\"\"
+        """𐑤𐑷𐑯𐑗 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑑𐑧𐑒𐑕𐑑𐑿𐑩𐑤 𐑣𐑧𐑒𐑕 𐑝𐑿𐑼"""
         try:
             from .hex_viewer import launch_textual_hex_viewer
             from .cumpyl import BinaryRewriter
@@ -577,7 +616,7 @@ class CumpylMenu:
             self.console.print(f"[red]Error reading file: {e}[/red]")
             return
         
-        # 📊 Try to load as binary for enhanced annotations (optional)
+        # 📊 𐑞𐑮𐑲 𐑑 𐑤𐑴𐑛 𐑨𐑟 𐑚𐑲𐑯𐑩𐑮𐑦 𐑓𐑹 𐑧𐑯𐑣𐑨𐑯𐑕𐑑 𐑨𐑯𐑴𐑑𐑱𐑖𐑩𐑯𐑟 (𐑪𐑐𐑖𐑩𐑯𐑩𐑤)
         from .hex_viewer import HexViewer
         hex_viewer = HexViewer(self.config)
         rewriter = None
@@ -585,19 +624,19 @@ class CumpylMenu:
             rewriter = BinaryRewriter(self.target_file, self.config)
             if rewriter.load_binary():
                 self.console.print("[green]✅ Detected structured binary (PE/ELF/Mach-O)[/green]")
-                # Add section annotations
+                # 𐑨𐑛 𐑕𐑧𐑒𐑖𐑩𐑯 𐑨𐑯𐑴𐑑𐑱𐑖𐑩𐑯𐑟
                 if rewriter.binary and hasattr(rewriter.binary, 'sections'):
                     sections = list(rewriter.binary.sections)
                     hex_viewer.add_section_annotations(sections)
                     
-                # 🔍 Ask for enhanced analysis
+                # 🔍 𐑩𐑕𐑒 𐑓𐑹 𐑧𐑯𐑣𐑨𐑯𐑕𐑑 𐑨𐑯𐑨𐑤𐑦𐑟𐑦𐑕
                 from rich.prompt import Confirm
                 if Confirm.ask("Run analysis plugins for enhanced annotations?", default=True):
                     try:
                         analysis_results = rewriter.run_plugin_analysis()
                         hex_viewer.add_analysis_annotations(analysis_results)
                         
-                        # Add obfuscation suggestions
+                        # 𐑨𐑛 𐑪𐑚𐑓𐑳𐑕𐑒𐑱𐑖𐑩𐑯 𐑕𐑩𐑜𐑧𐑕𐑑𐑩𐑯𐑟
                         suggestions = rewriter.suggest_obfuscation()
                         hex_viewer.add_suggestion_annotations(suggestions)
                     except Exception as e:
@@ -625,14 +664,14 @@ class CumpylMenu:
         
         if len(binary_data) > 512:
             self.console.print(f"\n[yellow]... and {len(binary_data) - 512} more bytes[/yellow]")
-
+    
     def execute_command(self, command: str):
-        \"\"\"Execute a Cumpyl command\"\"\"
+        """𐑧𐑒𐑕𐑦𐑒𐑿𐑑 𐑩 Cumpyl 𐑒𐑩𐑥𐑭𐑯𐑛"""
         self.console.print(f"\n[bold green]🚀 Executing:[/bold green] [cyan]{command}[/cyan]")
         self.console.print("─" * 80)
         
         try:
-            # Run the command in the same Python environment
+            # 𐑮𐑩𐑯 𐑞 𐑒𐑩𐑥𐑭𐑯𐑛 𐑦𐑯 𐑞 𐑕𐑱𐑥 Python 𐑧𐑯𐑝𐑲𐑼𐑩𐑯𐑥𐑩𐑯𐑑
             # Check if this is a packer CLI command
             if "packer_cli.py" in command or "real_packer.py" in command:
                 # Run the command directly without prepending cumpyl_package.cumpyl
@@ -663,8 +702,8 @@ class CumpylMenu:
         Prompt.ask("Press Enter to continue", default="")
     
     def show_help(self):
-        \"\"\"Display help information\"\"\"
-        help_text = \"\"\"
+        """𐑛𐑦𐑕𐑐𐑤𐑱 𐑣𐑧𐑤𐑐 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"""
+        help_text = """
 🔥 **CUMPYL FRAMEWORK** - Advanced Binary Analysis & Rewriting Platform
 
 **🎯 Quick Start Guide:**
@@ -705,7 +744,7 @@ class CumpylMenu:
 • Raw binary files
 
 For detailed documentation, check the CLAUDE.md file in the project directory.
-        \"\"\"
+        """
         
         help_panel = Panel(
             help_text.strip(),
@@ -718,10 +757,10 @@ For detailed documentation, check the CLAUDE.md file in the project directory.
         Prompt.ask("\nPress Enter to continue", default="")
     
     def run(self):
-        \"\"\"Run the interactive menu loop\"\"\"
+        """𐑮𐑳𐑯 𐑞 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿 𐑤𐑵𐑐"""
         self.show_banner()
         
-        # If no target file is set, select one
+        # 𐑦𐑓 𐑯𐑴 𐑑𐑸𐑜𐑧𐑑 𐑓𐑲𐑤 𐑦𐑟 𐑕𐑧𐑑, 𐑕𐑧𐑤𐑧𐑒𐑑 𐑢𐑳𐑯
         if not self.target_file:
             if not self.select_target_file():
                 return
@@ -772,8 +811,9 @@ For detailed documentation, check the CLAUDE.md file in the project directory.
                 self.console.print(f"[bold red]❌ Menu error: {e}[/bold red]")
                 Prompt.ask("Press Enter to continue", default="")
 
+
 def launch_menu(config: ConfigManager = None, target_file: str = None):
-    \"\"\"Launch the interactive menu\"\"\"
+    """𐑤𐑷𐑯𐑗 𐑞 𐑦𐑯𐑑𐑼𐑨𐑒𐑑𐑦𐑝 𐑥𐑧𐑯𐑿"""
     menu = CumpylMenu(config)
     if target_file:
         menu.target_file = target_file
