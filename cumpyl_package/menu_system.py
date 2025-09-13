@@ -58,6 +58,9 @@ class CumpylMenu:
         
         # 𐑤𐑵𐑒 𐑓𐑹 𐑒𐑪𐑥𐑩𐑯 𐑚𐑲𐑯𐑩𐑮𐑦 𐑦𐑒𐑕𐑑𐑧𐑯𐑖𐑩𐑯𐑟
         for root, dirs, files in os.walk(current_dir):
+            # Skip directories that start with a dot or are named ca_packer
+            dirs[:] = [d for d in dirs if not d.startswith('.') and d != 'ca_packer']
+            
             for file in files:
                 if file.lower().endswith(('.exe', '.dll', '.so', '.bin', '.elf')):
                     rel_path = os.path.relpath(os.path.join(root, file), current_dir)
@@ -198,7 +201,7 @@ class CumpylMenu:
             ("1", "Basic Hex View (HTML)", f"cumpyl {self.target_file} --hex-view"),
             ("2", "Interactive Section Selection (HTML)", f"cumpyl {self.target_file} --hex-view --hex-view-interactive"),
             ("3", "Interactive Terminal Hex Viewer", "Launch TUI hex viewer with navigation"),
-            ("4", "Hex + Full Analysis", f"cumpyl {self.target_file} --hex-view --run-analysis --suggest-obfuscation"),
+            ("4", "Hex + Analysis + Obfuscation Suggestions", f"cumpyl {self.target_file} --hex-view --run-analysis --suggest-obfuscation"),
             ("5", "Custom Range (specify offset)", "Custom command builder"),
             ("6", "View Specific Section", "Custom section selector"),
             ("7", "Large File View (8KB)", f"cumpyl {self.target_file} --hex-view --hex-view-bytes 8192"),
